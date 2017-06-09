@@ -5,22 +5,24 @@
  * @author Alejandro Mostajo
  * @license MIT
  * @package Amostajo\WPPluginCore
- * @version 1.2
+ * @version 1.0.8
  */
 
 if ( ! function_exists( 'resize_image' ) ) {
     /**
      * Resizes image and returns URL path.
-     * @since 1.0
+     * @since 1.0.0
+     * @since 1.0.8 Adds unique identifier.
      *
      * @param string  $url    Image URL path
      * @param int     $width  Width wanted.
      * @param int     $height Height wanted.
      * @param boolean $crop   Flag that indicates if resulting image should crop
+     * @param mixed   $id     Unique identifier. (i.e. post_id)
      *
      * @return string URL
      */
-    function resize_image( $url, $width, $height, $crop = true )
+    function resize_image( $url, $width, $height, $crop = true, $id = null )
     {
         $image = wp_get_image_editor( $url );
 
@@ -34,7 +36,8 @@ if ( ! function_exists( 'resize_image' ) ) {
         $upload_dir = wp_upload_dir();
 
         $filename = sprintf(
-            '/%s-%sx%s.%s',
+            '/%s%s-%sx%s.%s',
+            ( $id === null ? '' : $id . '-' ),
             $image_name,
             $width,
             $height,
@@ -51,7 +54,7 @@ if ( ! function_exists( 'resize_image' ) ) {
 if ( ! function_exists( 'theme_basename' ) ) {
     /**
      * Returens basename / relative path of a theme file.
-     * @since 1.2
+     * @since 1.0.2
      *
      * @param string $file File path.
      *
@@ -70,7 +73,7 @@ if ( ! function_exists( 'theme_basename' ) ) {
 if ( ! function_exists( 'theme_url' ) ) {
     /**
      * Returns the url based on the relative path and file passed by.
-     * @since 1.2
+     * @since 1.0.2
      *
      * @param string $path  Relative path.
      * @param string $theme Theme file.
@@ -98,7 +101,7 @@ if ( ! function_exists( 'theme_url' ) ) {
 if ( ! function_exists( 'asset_url' ) ) {
     /**
      * Returns url of asset located in a theme or plugin.
-     * @since 1.1
+     * @since 1.0.1
      *
      * @param string  $path Asset relative path.
      * @param string  $file File location path.
